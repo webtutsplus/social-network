@@ -3,8 +3,6 @@
 .idea/
 
 
-vue-social/node
-
 # Log file
 *.log
 
@@ -60,11 +58,7 @@ build/
 ### VS Code ###
 .vscode/
 
-/vue-social/node_modules
-*/node_modules/*
 
 
-vue-social/node_modules
-
-vue-social/src/firebase.js
-
+node_modules
+node_modules/*

@@ -3,7 +3,7 @@
 .idea/
 
 
-vue-social/node
+src/main/resources/firebase_config.json
 
 # Log file
 *.log
