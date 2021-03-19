@@ -2,6 +2,7 @@ package com.simplecoding.social.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simplecoding.social.auth.models.SecurityProperties;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public SecurityFilter tokenAuthenticationFilter;
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     @Bean
     public AuthenticationEntryPoint restAuthenticationEntryPoint() {

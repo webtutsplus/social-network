@@ -3,10 +3,9 @@ package com.simplecoding.social.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-
 import com.simplecoding.social.auth.models.Credentials;
 import com.simplecoding.social.auth.models.SecurityProperties;
-import com.simplecoding.social.auth.models.User;
+import com.simplecoding.social.auth.models.UserDto;
 import com.simplecoding.social.utils.CookieUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,27 +69,27 @@ public class SecurityFilter extends OncePerRequestFilter {
             e.printStackTrace();
             log.error("Firebase Exception:: ", e.getLocalizedMessage());
         }
-        User user = firebaseTokenToUserDto(decodedToken);
-        if (user != null) {
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
+        UserDto userDto = firebaseTokenToUserDto(decodedToken);
+        if (userDto != null) {
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDto,
                     new Credentials(type, decodedToken, token, session), null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
     }
 
-    private User firebaseTokenToUserDto(FirebaseToken decodedToken) {
-        User user = null;
+    private UserDto firebaseTokenToUserDto(FirebaseToken decodedToken) {
+        UserDto userDto = null;
         if (decodedToken != null) {
-            user = new User();
-            user.setUid(decodedToken.getUid());
-            user.setName(decodedToken.getName());
-            user.setEmail(decodedToken.getEmail());
-            user.setPicture(decodedToken.getPicture());
-            user.setIssuer(decodedToken.getIssuer());
-            user.setEmailVerified(decodedToken.isEmailVerified());
+            userDto = new UserDto();
+            userDto.setUid(decodedToken.getUid());
+            userDto.setName(decodedToken.getName());
+            userDto.setEmail(decodedToken.getEmail());
+            userDto.setPicture(decodedToken.getPicture());
+            userDto.setIssuer(decodedToken.getIssuer());
+            userDto.setEmailVerified(decodedToken.isEmailVerified());
         }
-        return user;
+        return userDto;
     }
 
 }
