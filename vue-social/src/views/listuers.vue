@@ -22,7 +22,7 @@ export default {
   methods: {
     getusers() {
 
-      axios.get('http://139.59.38.249:8080/public/users').then(resp => {
+      axios.get('http://localhost:8080/public/users').then(resp => {
         console.log(resp);
         if(resp.status === 200){
           this.users = resp.data;
