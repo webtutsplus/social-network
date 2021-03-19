@@ -24,7 +24,7 @@ public class PrivateEndpoint {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/saveUser")
+    @GetMapping("/saveUser")
     public ResponseEntity<UserDto> saveUserInfo(@AuthenticationPrincipal UserDto userDto) {
         userService.saveUser(userDto);
         return ResponseEntity.ok(userDto);
