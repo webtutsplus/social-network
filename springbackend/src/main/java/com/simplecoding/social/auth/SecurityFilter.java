@@ -7,7 +7,6 @@ import com.simplecoding.social.auth.models.Credentials;
 import com.simplecoding.social.auth.models.SecurityProperties;
 import com.simplecoding.social.auth.models.UserDto;
 import com.simplecoding.social.utils.CookieUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -67,7 +65,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
         } catch (FirebaseAuthException e) {
             e.printStackTrace();
-            log.error("Firebase Exception:: ", e.getLocalizedMessage());
+            //log.error("Firebase Exception:: ", e.getLocalizedMessage());
         }
         UserDto userDto = firebaseTokenToUserDto(decodedToken);
         if (userDto != null) {

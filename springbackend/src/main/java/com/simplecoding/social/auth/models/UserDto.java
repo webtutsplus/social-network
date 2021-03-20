@@ -1,10 +1,8 @@
 package com.simplecoding.social.auth.models;
 
-import lombok.Data;
 
 import java.io.Serializable;
 
-@Data
 public class UserDto implements Serializable {
 
 	/**
