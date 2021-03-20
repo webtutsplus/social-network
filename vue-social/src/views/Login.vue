@@ -11,6 +11,7 @@
 
 <script>
     import firebase from 'firebase';
+    import axios from 'axios'
     export default {
         name: 'login',
         data() {
@@ -33,18 +34,38 @@
                 );
             },
 
-            socialGithubLogin: function () {
-                const provider = new firebase.auth.GithubAuthProvider();
+            socialGithubLogin () {
+            const provider = new firebase.auth.GithubAuthProvider();
 
-                firebase.auth().signInWithPopup(provider).then((result)=>{
-                    console.log("result", result);
+            firebase.auth().signInWithPopup(provider).then((result)=>{
+                console.log("result", result);
+                firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+
+                localStorage.setItem("idToken",idToken)
+                const token = "Bearer "+idToken
+
+                 axios.get('http://localhost:8080/private/saveUser',{ 'headers': { 'Authorization': token } })
+                    .then(resp => {
+                        console.log(resp);
+
+                        if(resp.status === 200){
+                            console.log('saved the user!!!')
+                        }
+                        else {
+                            console.log("bad request by client")
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                    })
                 }).catch((err)=>{
                     alert('Oops. ' + err.message)
                 })
-
             }
         }
+
     }
+    
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */
