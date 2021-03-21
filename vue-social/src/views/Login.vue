@@ -3,15 +3,16 @@
         <h3>Sign In</h3>
         <input type="text" v-model="email" placeholder="Email"><br>
         <input type="password" v-model="password" placeholder="Password"><br>
-        <button @click="login">Connection</button>
-        <p>You don't have an account ? You can <router-link to="/sign-up">create one</router-link></p>
-        <button @click="socialGithubLogin">Github</button>
+        <button class="btn btn-success" @click="login">Login</button>
+        <p>You don't have an account ? You can <router-link to="/sign-up">create one by Github </router-link></p>
+        <button class="social-button" @click="socialGithubLogin"><img src="../assets/github_logo.png"></button>
     </div>
 </template>
 
 <script>
     import firebase from 'firebase';
     import axios from 'axios'
+    import VueSimpleAlert from "vue-simple-alert";
     export default {
         name: 'login',
         data() {
@@ -25,7 +26,7 @@
                 firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
                     (user) => {
                         console.log("user logged ins", user);
-                        alert("you are now connexted");
+                        //alert("you are now connexted");
                         this.$router.replace('home')
                     },
                     (err) => {
@@ -41,18 +42,21 @@
                 console.log("result", result);
                 firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
 
-                localStorage.setItem("idToken",idToken)
+                localStorage.setItem("idToken",idToken);
                 const token = "Bearer "+idToken
 
                  axios.get('http://localhost:8080/private/saveUser',{ 'headers': { 'Authorization': token } })
                     .then(resp => {
                         console.log(resp);
-
                         if(resp.status === 200){
-                            console.log('saved the user!!!')
+                            VueSimpleAlert.alert("Logged In succesfully")
+                            this.$router.replace('/');
+                            this.$router.push('/');
+                            console.log('saved the user!!!');
                         }
                         else {
-                            console.log("bad request by client")
+                            console.log("bad request by client");
+                            alert("something went wrong")
                         }
                     }).catch(err => {
                         console.log(err)
@@ -65,7 +69,7 @@
         }
 
     }
-    
+
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */
@@ -89,5 +93,20 @@ p {
 p a {
     text-decoration: underline;
     cursor: pointer;
+}
+.social-button {
+    width: 75px;
+    background: white;
+    padding: 10px;
+    border-radius: 100%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    outline: 0;
+    border: 0;
+}
+.social-button:active {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+}
+.social-button img {
+    width: 100%;
 }
 </style>
