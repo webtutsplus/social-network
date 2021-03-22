@@ -21,7 +21,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "size")
     private Role role;
 
     private String picture;

@@ -17,7 +17,7 @@ spring:
 
   jpa:
     # remove the next line, if you use mysql:
-    #database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5Dialect
     hibernate:
       ddl-auto: update
 
