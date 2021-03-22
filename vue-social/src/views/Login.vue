@@ -13,6 +13,7 @@
     import firebase from 'firebase';
     import axios from 'axios'
     import VueSimpleAlert from "vue-simple-alert";
+    import {API_BASE_URL} from "../config";
     export default {
         name: 'login',
         data() {
@@ -44,8 +45,8 @@
 
                 localStorage.setItem("idToken",idToken);
                 const token = "Bearer "+idToken
-
-                 axios.get('http://localhost:8080/private/saveUser',{ 'headers': { 'Authorization': token } })
+                  const url = `${API_BASE_URL}private/saveUser`;
+                 axios.get(url, { 'headers': { 'Authorization': token } })
                     .then(resp => {
                         console.log(resp);
                         if(resp.status === 200){
