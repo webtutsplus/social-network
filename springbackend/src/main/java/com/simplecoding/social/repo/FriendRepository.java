@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FriendRepository extends JpaRepository<Friend,Integer> {
 
-    boolean existsByFirstUser(User firstUser);
-    boolean existsBySecondUser(User secondUser);
+    boolean existsByFirstUserAndSecondUser(User first,User second);
 
 }

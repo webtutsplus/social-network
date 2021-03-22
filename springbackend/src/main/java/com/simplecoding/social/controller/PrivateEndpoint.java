@@ -53,12 +53,9 @@ public class PrivateEndpoint {
     }*/
 
     @GetMapping("addFriend")
-    public ResponseEntity<?> addUser(@AuthenticationPrincipal @RequestParam("id")String id){
+    public ResponseEntity<?> addUser(@RequestParam("friendId")String friendId) throws NullPointerException{
         UserDto currentUser = securityService.getUser();
-        User user = userRepository.getOne(Integer.parseInt(id));
-        UserDto userDto2 = modelMapper.map(user,UserDto.class);
-        friendService.saveFriend(currentUser,userDto2);
-        friendService.saveFriend(userDto2,currentUser);
+        friendService.saveFriend(currentUser,Integer.parseInt(friendId));
         return ResponseEntity.ok("Friend added successfully");
     }
 
