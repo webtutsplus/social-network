@@ -20,6 +20,7 @@
 
 <script>
 import axios from 'axios';
+import {API_BASE_URL} from '/src/config.js';
 
 export default {
   name: "listusers",
@@ -33,8 +34,8 @@ export default {
   },
   methods: {
     getusers() {
-
-      axios.get('http://localhost:8080/public/users').then(resp => {
+      const url = `${API_BASE_URL}public/users`;
+      axios.get(url).then(resp => {
         console.log(resp);
         if(resp.status === 200){
           this.users = resp.data;
