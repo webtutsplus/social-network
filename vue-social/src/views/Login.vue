@@ -11,8 +11,9 @@
 
 <script>
     import firebase from 'firebase';
-    import axios from 'axios'
-    import VueSimpleAlert from "vue-simple-alert";
+    import {saveUser} from "@/helpers";
+
+    import {API_BASE_URL} from "../config";
     export default {
         name: 'login',
         data() {
@@ -42,26 +43,11 @@
                 console.log("result", result);
                 firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
 
-                localStorage.setItem("idToken",idToken);
-                const token = "Bearer "+idToken
-
-                 axios.get('http://localhost:8080/private/saveUser',{ 'headers': { 'Authorization': token } })
-                    .then(resp => {
-                        console.log(resp);
-                        if(resp.status === 200){
-                            VueSimpleAlert.alert("Logged In succesfully")
-                            this.$router.replace('/');
-                            this.$router.push('/');
-                            console.log('saved the user!!!');
-                        }
-                        else {
-                            console.log("bad request by client");
-                            alert("something went wrong")
-                        }
-                    }).catch(err => {
-                        console.log(err)
-                    })
-                    })
+                  localStorage.setItem("idToken",idToken);
+                  const token = "Bearer "+idToken
+                  const url = `${API_BASE_URL}private/saveUser`;
+                  saveUser(url, token);
+                })
                 }).catch((err)=>{
                     alert('Oops. ' + err.message)
                 })
