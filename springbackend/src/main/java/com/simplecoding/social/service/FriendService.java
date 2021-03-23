@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,10 +60,17 @@ public class FriendService {
     }
 
     public List<User> getFriends(){
+
         UserDto currentUserDto = securityService.getUser();
         User currentUser = userRepository.findUserByEmail(currentUserDto.getEmail());
-        List<User> friendsList = friendRepository.findByFirstUser_Id(currentUser.getId());
-        return friendsList;
+        List<Friend> friends = friendRepository.findByFirstUser_Id(currentUser.getId());
+        List<User> friendUsers = new ArrayList<User>();
+
+        for (Friend friend : friends) {
+            friendUsers.add(userRepository.findUserById(friend.getSecondUser().getId()));
+        }
+        return friendUsers;
+
     }
 
 }
