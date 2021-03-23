@@ -8,9 +8,12 @@ import com.simplecoding.social.service.FriendService;
 import com.simplecoding.social.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("private")
@@ -57,6 +60,12 @@ public class PrivateEndpoint {
         UserDto currentUser = securityService.getUser();
         friendService.saveFriend(currentUser,Integer.parseInt(friendId));
         return ResponseEntity.ok("Friend added successfully");
+    }
+
+    @GetMapping("listFriends")
+    public ResponseEntity<List<User>> getFriends() {
+        List<User> myFriends = friendService.getFriends();
+        return new ResponseEntity<List<User>>(myFriends, HttpStatus.OK);
     }
 
 }
