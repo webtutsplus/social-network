@@ -13,7 +13,7 @@ spring:
     # alternative datasource: external mysql database example
     url: jdbc:mysql://localhost:3306/social_network
     username: root
-    password: Lordoftherings$07
+    password: root
 
   jpa:
     # remove the next line, if you use mysql:
