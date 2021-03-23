@@ -1,5 +1,6 @@
 package com.simplecoding.social.service;
 
+import com.simplecoding.social.auth.SecurityService;
 import com.simplecoding.social.auth.models.UserDto;
 import com.simplecoding.social.model.Friend;
 import com.simplecoding.social.model.User;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class FriendService {
@@ -23,6 +27,9 @@ public class FriendService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    SecurityService securityService;
 
     public void saveFriend(UserDto userDto1, int id) throws NullPointerException{
 
@@ -49,6 +56,20 @@ public class FriendService {
             friendRepository.save(friend);
             friendRepository.save(friendViceVersa);
         }
+
+    }
+
+    public List<User> getFriends(){
+
+        UserDto currentUserDto = securityService.getUser();
+        User currentUser = userRepository.findUserByEmail(currentUserDto.getEmail());
+        List<Friend> friends = friendRepository.findByFirstUser(currentUser);
+        List<User> friendUsers = new ArrayList<User>();
+
+        for (Friend friend : friends) {
+            friendUsers.add(userRepository.findUserById(friend.getSecondUser().getId()));
+        }
+        return friendUsers;
 
     }
 
