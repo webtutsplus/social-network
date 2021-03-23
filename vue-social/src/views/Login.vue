@@ -1,12 +1,30 @@
 <template>
-    <div class="login">
-        <h3>Sign In</h3>
-        <input type="text" v-model="email" placeholder="Email"><br>
-        <input type="password" v-model="password" placeholder="Password"><br>
-        <button class="btn btn-success" @click="login">Login</button>
-        <p>You don't have an account ? You can <router-link to="/sign-up">create one by Github </router-link></p>
-        <button class="social-button" @click="socialGithubLogin"><img src="../assets/github_logo.png"></button>
-    </div>
+  <b-container>
+    <b-row>
+      <b-col class="pt-5">
+        <h3 class="pb-3 text-center">Sign In</h3>
+
+        <b-form  @submit.stop.prevent>
+          <b-form-group label="Email address:">
+            <b-form-input v-model="email" type="email" required />
+          </b-form-group>
+
+          <b-form-group label="Password:">
+            <b-form-input type="password" v-model="password" required/>
+          </b-form-group>
+
+          <b-form-group class="text-center">
+            <b-button variant="success" @click="login">Login</b-button>
+          </b-form-group>
+          <b-form-group class="text-center">
+            <p>Don't have an account ? You can <router-link to="/signup">create one by Github </router-link></p>
+            <b-button class="social-button" @click="socialGithubLogin"><img src="../assets/github_logo.png"></b-button>
+          </b-form-group>
+        </b-form>
+
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -24,13 +42,13 @@
             }
         },
         methods: {
+          //Logged in using email id and password
           login: function () {
             firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
                 (user) => {
-                  console.log("user logged ins", user);
                   this.username = user.user.email;
                   localStorage.setItem("username", this.username);
-                  this.$router.replace('home')
+                  this.$router.replace('/');
                 },
                 (err) => {
                   alert('Oops. ' + err.message)
@@ -39,6 +57,7 @@
           },
 
           socialGithubLogin() {
+            //Logged in using GitHub
             const provider = new firebase.auth.GithubAuthProvider();
 
             firebase.auth().signInWithPopup(provider).then((result) => {
@@ -52,6 +71,7 @@
                 const url = `${API_BASE_URL}private/saveUser`;
                 saveUser(url, token);
               })
+              this.$router.replace('/');
             }).catch((err) => {
               alert('Oops. ' + err.message)
             })
@@ -63,27 +83,7 @@
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */
-.login {
-    margin-top: 40px;
-}
-input {
-    margin: 10px 0;
-    width: 20%;
-    padding: 15px;
-}
-button {
-    margin-top: 20px;
-    width: 10%;
-    cursor: pointer;
-}
-p {
-    margin-top: 40px;
-    font-size: 13px;
-}
-p a {
-    text-decoration: underline;
-    cursor: pointer;
-}
+
 .social-button {
     width: 75px;
     background: white;

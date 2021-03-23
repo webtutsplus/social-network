@@ -50,7 +50,12 @@ export default {
   name: "Navbar",
   data() {
     return {
-      username : null
+      username : localStorage.getItem('username')
+    }
+  },
+  watch: {
+    $route() {
+      this.username = localStorage.getItem('username')
     }
   },
   methods: {
@@ -58,9 +63,6 @@ export default {
       localStorage.removeItem('username');
       this.username = null;
     }
-  },
-  mounted() {
-    this.username = localStorage.getItem('username');
   }
 }
 </script>
