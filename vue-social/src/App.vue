@@ -1,33 +1,17 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <div class="loggedin" v-if="notLogged()">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/login">Login</router-link> |
-        <router-link to="/signup">SignUp</router-link> |
-        <router-link to="/listusers">Users</router-link> |
-        <router-link to="/login">Chat</router-link>
-
-      </div>
-      <div class="loggedin" v-else>
-        <router-link to="/">Home</router-link> |
-<!--        <router-link to="/login">Logout</router-link> |-->
-        <router-link to="/listusers">List Users</router-link> |
-        <router-link to="/listusers">My Profile</router-link> |
-        <router-link v-bind:to="'/room/'+this.username">Chat</router-link>
-
-      </div>
-
-    </div>
+  <div>
+    <Navbar></Navbar>
     <router-view />
   </div>
 </template>
 
 <script>
   import firebase from 'firebase';
+  import Navbar from "./components/NavBar";
   //import $ from 'jquery'
 
   export default {
+    components: {Navbar},
     data() {
       return {
         username : ''
