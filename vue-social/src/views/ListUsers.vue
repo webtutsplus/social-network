@@ -13,6 +13,9 @@
         <div class="col">
           <img class="img" v-bind:src="item.picture" alt="avatar">
         </div>
+        <div v-if="email !== item.email">
+          <button class="btn btn-primary pull-right" @click="addfriend(item.id)">Add Friend</button>
+        </div>
       </div>
     </li>
   </ul>
@@ -20,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+import firebase from 'firebase';
 import {API_BASE_URL} from '/src/config.js';
 
 export default {
@@ -27,10 +31,13 @@ export default {
   data() {
     return {
       users: [],
+      email: '',
     }
   },
-  mounted() {
+   mounted() {
     this.getusers();
+    //console.log(firebase.auth().currentUser.email)
+    this.email = firebase.auth().currentUser.email;
   },
   methods: {
     getusers() {
@@ -45,6 +52,16 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    addfriend(id){
+      axios.get(`${API_BASE_URL}private/addFriend/?friendId=${id}`,{'headers' :{
+          'Authorization': 'Bearer '+localStorage.getItem('idToken'),
+        }}).then(resp => {
+          console.log(resp.data);
+          if(resp.status === 200){
+            alert("friend added! ");
+          }
+      }).catch(err => console.log(err))
     }
   }
 }
