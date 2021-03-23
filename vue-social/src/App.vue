@@ -6,13 +6,16 @@
         <router-link to="/login">Login</router-link> |
         <router-link to="/signup">SignUp</router-link> |
         <router-link to="/listusers">Users</router-link> |
+        <router-link to="/login">Chat</router-link>
 
       </div>
       <div class="loggedin" v-else>
         <router-link to="/">Home</router-link> |
 <!--        <router-link to="/login">Logout</router-link> |-->
         <router-link to="/listusers">List Users</router-link> |
-        <router-link to="/listusers">My Profile</router-link>
+        <router-link to="/listusers">My Profile</router-link> |
+        <router-link v-bind:to="'/room/'+this.username">Chat</router-link>
+
       </div>
 
     </div>
@@ -25,9 +28,16 @@
   //import $ from 'jquery'
 
   export default {
+    data() {
+      return {
+        username : ''
+      }
+    },
     methods: {
       notLogged: function () {
         if (firebase.auth().currentUser ) {
+          console.log("logged in");
+          this.username = localStorage.getItem('username')
           return false;
         }
         return true;
@@ -35,6 +45,7 @@
     },
     mounted() {
       this.notLogged();
+
     }
   }
 </script>

@@ -19,39 +19,43 @@
         data() {
             return {
                 email: '',
-                password: ''
+                password: '',
+                username: ''
             }
         },
         methods: {
-            login: function() {
-                firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-                    (user) => {
-                        console.log("user logged ins", user);
-                        //alert("you are now connexted");
-                        this.$router.replace('home')
-                    },
-                    (err) => {
-                        alert('Oops. ' + err.message)
-                    }
-                );
-            },
+          login: function () {
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+                (user) => {
+                  console.log("user logged ins", user);
+                  this.username = user.user.email;
+                  localStorage.setItem("username", this.username);
+                  this.$router.replace('home')
+                },
+                (err) => {
+                  alert('Oops. ' + err.message)
+                }
+            );
+          },
 
-            socialGithubLogin () {
+          socialGithubLogin() {
             const provider = new firebase.auth.GithubAuthProvider();
 
-            firebase.auth().signInWithPopup(provider).then((result)=>{
-                console.log("result", result);
-                firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-
-                  localStorage.setItem("idToken",idToken);
-                  const token = "Bearer "+idToken
-                  const url = `${API_BASE_URL}private/saveUser`;
-                  saveUser(url, token);
-                })
-                }).catch((err)=>{
-                    alert('Oops. ' + err.message)
-                })
-            }
+            firebase.auth().signInWithPopup(provider).then((result) => {
+              console.log("result", result);
+              this.username = firebase.auth().currentUser.displayName;
+              console.log(this.username);
+              localStorage.setItem("username",this.username);
+              firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+                localStorage.setItem("idToken", idToken);
+                const token = "Bearer " + idToken
+                const url = `${API_BASE_URL}private/saveUser`;
+                saveUser(url, token);
+              })
+            }).catch((err) => {
+              alert('Oops. ' + err.message)
+            })
+          }
         }
 
     }
