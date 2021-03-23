@@ -24,9 +24,10 @@
 <script>
 import axios from 'axios';
 import firebase from 'firebase';
+import {API_BASE_URL} from '/src/config.js';
 
 export default {
-  name: "listuers",
+  name: "listusers",
   data() {
     return {
       users: [],
@@ -40,8 +41,8 @@ export default {
   },
   methods: {
     getusers() {
-
-      axios.get('http://localhost:8080/public/users').then(resp => {
+      const url = `${API_BASE_URL}public/users`;
+      axios.get(url).then(resp => {
         console.log(resp);
         if(resp.status === 200){
           this.users = resp.data;
@@ -53,7 +54,7 @@ export default {
       })
     },
     addfriend(id){
-      axios.get('http://localhost:8080/private/addFriend/?friendId='+id,{'headers' :{
+      axios.get(`${API_BASE_URL}private/addFriend/?friendId=${id}`,{'headers' :{
           'Authorization': 'Bearer '+localStorage.getItem('idToken'),
         }}).then(resp => {
           console.log(resp.data);

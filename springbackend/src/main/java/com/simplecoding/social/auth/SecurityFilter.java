@@ -7,6 +7,7 @@ import com.simplecoding.social.auth.models.Credentials;
 import com.simplecoding.social.auth.models.SecurityProperties;
 import com.simplecoding.social.auth.models.UserDto;
 import com.simplecoding.social.utils.CookieUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +35,9 @@ public class SecurityFilter extends OncePerRequestFilter {
     CookieUtils cookieUtils;
 
     @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
     SecurityProperties securityProps;
 
     @Override
@@ -47,21 +51,12 @@ public class SecurityFilter extends OncePerRequestFilter {
         String session = null;
         FirebaseToken decodedToken = null;
         Credentials.CredentialType type = null;
-        boolean strictServerSessionEnabled = securityProps.getFirebaseProps().isEnableStrictServerSession();
-        Cookie sessionCookie = cookieUtils.getCookie("session");
         String token = securityService.getBearerToken(request);
         logger.info(token);
         try {
-            if (sessionCookie != null) {
-                session = sessionCookie.getValue();
-                decodedToken = FirebaseAuth.getInstance().verifySessionCookie(session,
-                        securityProps.getFirebaseProps().isEnableCheckSessionRevoked());
-                type = Credentials.CredentialType.SESSION;
-            } else if (!strictServerSessionEnabled) {
-                if (token != null && !token.equalsIgnoreCase("undefined")) {
-                    decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-                    type = Credentials.CredentialType.ID_TOKEN;
-                }
+            if (token != null && !token.equalsIgnoreCase("undefined")) {
+                decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+                type = Credentials.CredentialType.ID_TOKEN;
             }
         } catch (FirebaseAuthException e) {
             e.printStackTrace();
@@ -79,13 +74,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private UserDto firebaseTokenToUserDto(FirebaseToken decodedToken) {
         UserDto userDto = null;
         if (decodedToken != null) {
-            userDto = new UserDto();
-            userDto.setUid(decodedToken.getUid());
-            userDto.setName(decodedToken.getName());
-            userDto.setEmail(decodedToken.getEmail());
-            userDto.setPicture(decodedToken.getPicture());
-            userDto.setIssuer(decodedToken.getIssuer());
-            userDto.setEmailVerified(decodedToken.isEmailVerified());
+            userDto = modelMapper.map(decodedToken, UserDto.class);
         }
         return userDto;
     }
