@@ -63,7 +63,7 @@ public class FriendService {
 
         UserDto currentUserDto = securityService.getUser();
         User currentUser = userRepository.findUserByEmail(currentUserDto.getEmail());
-        List<Friend> friends = friendRepository.findByFirstUser_Id(currentUser.getId());
+        List<Friend> friends = friendRepository.findByFirstUser(currentUser);
         List<User> friendUsers = new ArrayList<User>();
 
         for (Friend friend : friends) {
