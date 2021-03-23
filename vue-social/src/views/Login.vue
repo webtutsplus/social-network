@@ -18,7 +18,7 @@
           </b-form-group>
           <b-form-group class="text-center">
             <p>Don't have an account ? You can <router-link to="/signup">create one by Github </router-link></p>
-            <b-button class="social-button" @click="socialGithubLogin"><img src="../assets/github_logo.png"></b-button>
+            <b-button class="social-button" @click="socialGithubLogin"><img src="/assets/github_logo.png"></b-button>
           </b-form-group>
         </b-form>
 

@@ -62,6 +62,7 @@ export default {
     signOut() {
       localStorage.removeItem('username');
       this.username = null;
+      this.$router.replace('login')
     }
   }
 }
