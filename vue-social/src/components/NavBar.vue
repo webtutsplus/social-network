@@ -17,11 +17,11 @@
         </li>
 
         <li class="nav-item" v-if="!username">
-          <router-link class="nav-link"  :to="'/login'">Log In</router-link>
+          <router-link class="nav-link"  :to="'/login'">Chat</router-link>
         </li>
 
         <li class="nav-item" v-if="!username">
-          <router-link class="nav-link"  :to="'/login'">Chat</router-link>
+          <router-link class="nav-link"  :to="'/login'">Log In</router-link>
         </li>
 
         <li class="nav-item" v-if="!username">
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 export default {
   name: "Navbar",
   data() {
@@ -60,9 +61,13 @@ export default {
   },
   methods: {
     signOut() {
-      localStorage.removeItem('username');
-      this.username = null;
-      this.$router.replace('login')
+      firebase.auth().signOut().then(() => {
+        localStorage.removeItem('username');
+        this.username = null;
+        this.$router.replace('/login');
+      }).catch(function(error) {
+        console.log(error);
+      });
     }
   }
 }

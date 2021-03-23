@@ -27,7 +27,6 @@ export default {
   methods: {
     checkLoggedIn: function () {
       if (this.username) {
-        console.log(localStorage.getItem('username'))
         $('#username').html(`You are logged in as ${this.username}`);
       }
     }

@@ -63,7 +63,6 @@
             firebase.auth().signInWithPopup(provider).then((result) => {
               console.log("result", result);
               this.username = firebase.auth().currentUser.displayName;
-              console.log(this.username);
               localStorage.setItem("username",this.username);
               firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
                 localStorage.setItem("idToken", idToken);
