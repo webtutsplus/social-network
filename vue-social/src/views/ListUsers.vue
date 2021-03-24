@@ -13,8 +13,8 @@
         <div class="col">
           <img class="img" v-bind:src="item.picture" alt="avatar">
         </div>
-        <div v-if="email !== item.email">
-          <button class="btn btn-primary pull-right" @click="addfriend(item.id)">Add Friend</button>
+        <div class="col">
+          <button v-if="email !== item.email" class="btn btn-primary pull-right" @click="addfriend(item.id)">Add Friend</button>
         </div>
       </div>
     </li>
