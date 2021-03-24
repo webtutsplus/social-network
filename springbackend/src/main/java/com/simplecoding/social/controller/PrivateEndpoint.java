@@ -5,6 +5,7 @@ import com.simplecoding.social.auth.models.UserDto;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.repo.UserRepository;
 import com.simplecoding.social.service.FriendService;
+import com.simplecoding.social.service.RoomService;
 import com.simplecoding.social.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class PrivateEndpoint {
 
     @Autowired
     FriendService friendService;
+
+    @Autowired
+    RoomService roomService;
 
     @Autowired
     UserRepository userRepository;
@@ -67,5 +71,15 @@ public class PrivateEndpoint {
         List<User> myFriends = friendService.getFriends();
         return new ResponseEntity<List<User>>(myFriends, HttpStatus.OK);
     }
+
+    @GetMapping("getRoomName")
+    public ResponseEntity<String> getRoom(@RequestParam("friendId")int friendId) {
+        UserDto currentUser = securityService.getUser();
+        roomService.saveRoom(currentUser,friendId);
+        String room = roomService.getRoom(friendId);
+
+        return new ResponseEntity<String>(room, HttpStatus.OK);
+    }
+
 
 }

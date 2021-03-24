@@ -48,6 +48,12 @@
                 (user) => {
                   this.username = user.user.email;
                   localStorage.setItem("username", this.username);
+                  firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+                    localStorage.setItem("idToken", idToken);
+                    const token = "Bearer " + idToken
+                    const url = `${API_BASE_URL}private/saveUser`;
+                    saveUser(url, token);
+                  })
                   this.$router.replace('/');
                 },
                 (err) => {

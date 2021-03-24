@@ -15,7 +15,7 @@
               <img class="img"  thumbnail v-bind:src="item.picture" alt="avatar">
             </div>
             <div class="col-4 text-right">
-              <button class="btn btn-primary pull-right">Chat</button>
+              <button class="btn btn-primary pull-right" @click="fetchRoom(item.id)">Chat</button>
             </div>
           </b-list-group-item>
         </b-list-group>
@@ -46,6 +46,13 @@ export default {
         if(resp.status === 200){
           this.users = resp.data;
         }
+      }).catch(err => console.log(err))
+    },
+    fetchRoom(id) {
+      axios.post(`${API_BASE_URL}private/fetchRoom/${id}`, {'headers':{
+          'Authorization': 'Bearer '+localStorage.getItem('idToken'),
+        }}).then(resp => {
+          console.log(resp.data);
       }).catch(err => console.log(err))
     }
   },
