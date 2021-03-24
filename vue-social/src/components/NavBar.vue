@@ -17,7 +17,7 @@
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" :to="'/listFriends'">Friends</router-link>
+          <router-link class="nav-link" :to="'/listfriends'">Friends</router-link>
         </li>
         <li class="nav-item" v-if="!username">
           <router-link class="nav-link"  :to="'/login'">Chat</router-link>
