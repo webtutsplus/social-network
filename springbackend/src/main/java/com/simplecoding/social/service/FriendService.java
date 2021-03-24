@@ -40,22 +40,34 @@ public class FriendService {
         friend.setCreatedDate(new Date());
         User user1 = userRepository.findUserByEmail(userDto1.getEmail());
         User user2 = userRepository.findUserByEmail(userDto2.getEmail());
-
-        Friend friendViceVersa = new Friend();
-        friendViceVersa.setCreatedDate(new Date());
-        User firstUser = userRepository.findUserByEmail(userDto2.getEmail());
-        User secondUser = userRepository.findUserByEmail(userDto1.getEmail());
-
-        if( !(friendRepository.existsByFirstUserAndSecondUser(user1,user2)) ){
-            friend.setFirstUser(user1);
-            friend.setSecondUser(user2);
-
-            friendViceVersa.setFirstUser(firstUser);
-            friendViceVersa.setSecondUser(secondUser);
-
-            friendRepository.save(friend);
-            friendRepository.save(friendViceVersa);
+        User firstuser = user1;
+        User seconduser = user2;
+        if(user1.getId() > user2.getId()){
+             firstuser = user2;
+             seconduser = user1;
         }
+        if( !(friendRepository.existsByFirstUserAndSecondUser(firstuser,seconduser)) ){
+            friend.setFirstUser(firstuser);
+            friend.setSecondUser(seconduser);
+            friendRepository.save(friend);
+        }
+//        Friend friendViceVersa = new Friend();
+//        friendViceVersa.setCreatedDate(new Date());
+//        User firstUser = userRepository.findUserByEmail(userDto2.getEmail());
+//        User secondUser = userRepository.findUserByEmail(userDto1.getEmail());
+//
+//        if( !(friendRepository.existsByFirstUserAndSecondUser(user1,user2)) ){
+//            friend.setFirstUser(user1);
+//            friend.setSecondUser(user2);
+//
+//            friendViceVersa.setFirstUser(firstUser);
+//            friendViceVersa.setSecondUser(secondUser);
+//
+//            friendRepository.save(friend);
+//            friendRepository.save(friendViceVersa);
+//        }
+
+
 
     }
 
@@ -64,10 +76,14 @@ public class FriendService {
         UserDto currentUserDto = securityService.getUser();
         User currentUser = userRepository.findUserByEmail(currentUserDto.getEmail());
         List<Friend> friends = friendRepository.findByFirstUser(currentUser);
-        List<User> friendUsers = new ArrayList<User>();
+        List<Friend> friends1 = friendRepository.findBySecondUser(currentUser);
+        List<User> friendUsers = new ArrayList<>();
 
         for (Friend friend : friends) {
             friendUsers.add(userRepository.findUserById(friend.getSecondUser().getId()));
+        }
+        for (Friend friend : friends1) {
+            friendUsers.add(userRepository.findUserById(friend.getFirstUser().getId()));
         }
         return friendUsers;
 
