@@ -36,7 +36,9 @@
           <router-link class="nav-link"  :to="'/room/'+this.username">Chat</router-link>
         </li>
 
-
+        <li class="nav-item" v-if="username">
+          <router-link class="nav-link"  :to="'/friends'">Friends</router-link>
+        </li>
 
       </ul>
     </div>

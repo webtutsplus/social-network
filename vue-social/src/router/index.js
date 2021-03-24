@@ -7,6 +7,7 @@ import UserList from '../views/ListUsers.vue'
 import Chat from '../components/Chat.vue'
 import Room from '../components/Room.vue'
 import AddRoom from '../components/AddRoom.vue'
+import ListFriends from "../views/ListFriends";
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,11 @@ const routes = [
     path: '/add-room',
     name: 'AddRoom',
     component: AddRoom
+  },
+  {
+    path: '/friends',
+    name: 'Friends',
+    component: ListFriends
   }
 ]
 
