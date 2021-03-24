@@ -1,33 +1,27 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <div class="loggedin" v-if="notLogged()">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/login">Login</router-link> |
-        <router-link to="/signup">SignUp</router-link> |
-        <router-link to="/listusers">Users</router-link> |
-
-      </div>
-      <div class="loggedin" v-else>
-        <router-link to="/">Home</router-link> |
-<!--        <router-link to="/login">Logout</router-link> |-->
-        <router-link to="/listusers">List Users</router-link> |
-        <router-link to="/listusers">My Profile</router-link>
-      </div>
-
-    </div>
-    <router-view />
+  <div>
+    <Navbar></Navbar>
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
 <script>
   import firebase from 'firebase';
+  import Navbar from "./components/NavBar";
   //import $ from 'jquery'
 
   export default {
+    components: {Navbar},
+    data() {
+      return {
+        username : ''
+      }
+    },
     methods: {
       notLogged: function () {
         if (firebase.auth().currentUser ) {
+          console.log("logged in");
+          this.username = localStorage.getItem('username')
           return false;
         }
         return true;
@@ -35,6 +29,7 @@
     },
     mounted() {
       this.notLogged();
+
     }
   }
 </script>
