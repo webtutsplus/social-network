@@ -27,6 +27,7 @@
 <script>
 import axios from 'axios';
 import {API_BASE_URL} from '/src/config.js';
+import firebase from "../firebase";
 
 export default {
   name: "ListFriends",
@@ -34,7 +35,8 @@ export default {
     return {
       users: [],
       email: '',
-      username: localStorage.getItem('username')
+      username: localStorage.getItem('username'),
+      ref: firebase.database().ref('chatrooms/')
     }
   },
   methods: {
@@ -49,10 +51,27 @@ export default {
       }).catch(err => console.log(err))
     },
     fetchRoom(id) {
-      axios.post(`${API_BASE_URL}private/fetchRoom/${id}`, {'headers':{
+      console.log(id);
+      axios.get(`${API_BASE_URL}private/getRoomName?friendId=${id}`, {'headers':{
           'Authorization': 'Bearer '+localStorage.getItem('idToken'),
         }}).then(resp => {
           console.log(resp.data);
+          if (resp.data != 'Denied') {
+            this.ref.orderByChild('roomName').equalTo(resp.data).once('value', snapshot => {
+              if (snapshot.exists()) {
+                console.log('Room Exists');
+              }
+              else {
+                console.log("Does not Exist")
+                let newData = this.ref.push()
+                newData.set({
+                  roomName: resp.data
+                })
+              }
+
+            })
+
+          }
       }).catch(err => console.log(err))
     }
   },
