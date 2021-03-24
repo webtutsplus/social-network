@@ -1,24 +1,32 @@
 <template>
-  <ul class="list-group">
-    <li class="list-group-item" v-for="item in users" v-bind:key="item.id">
-      <div class="row">
-        <div class="col">
-          <div v-if="item.name === null">
-            {{item.email}}
-          </div>
-          <div v-else>
-            {{item.name}}
-          </div>
-        </div>
-        <div class="col">
-          <img class="img" v-bind:src="item.picture" alt="avatar">
-        </div>
-        <div v-if="email !== item.email">
-          <button class="btn btn-primary pull-right" @click="addfriend(item.id)">Add Friend</button>
-        </div>
-      </div>
-    </li>
-  </ul>
+  <b-container>
+    <b-row>
+      <b-col class="pt-5">
+        <b-list-group class="list-group">
+          <b-list-group-item class="d-flex justify-content-around" v-for="item in users" v-bind:key="item.id">
+                <div class="col-4" v-if="item.name === null">
+                  {{item.email}}
+                </div>
+                <div class="col-4" v-else>
+                  {{item.name}}
+                </div>
+
+              <div class="col-4 text-center">
+                <img class="img" v-bind:src="item.picture" alt="avatar">
+              </div>
+              <div v-if="email !== item.email" class="col-4 text-right">
+                <button v-if="username" class="btn btn-primary pull-right" @click="addfriend(item.id)">Add Friend</button>
+                <button v-else class="btn btn-primary pull-right" @click="goToLogin()">Add Friend</button>
+              </div>
+
+              <div v-else class="col-4 text-right">
+
+              </div>
+          </b-list-group-item>
+        </b-list-group>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -32,12 +40,14 @@ export default {
     return {
       users: [],
       email: '',
+      username: null
     }
   },
    mounted() {
     this.getusers();
     //console.log(firebase.auth().currentUser.email)
     this.email = firebase.auth().currentUser.email;
+    this.username = localStorage.getItem('username');
   },
   methods: {
     getusers() {
@@ -62,8 +72,12 @@ export default {
             alert("friend added! ");
           }
       }).catch(err => console.log(err))
+    },
+    goToLogin() {
+      this.$router.push('/login');
     }
-  }
+  },
+
 }
 </script>
 
