@@ -37,7 +37,6 @@ public class FriendService {
         UserDto userDto2 = modelMapper.map(user,UserDto.class);
 
         Friend friend = new Friend();
-        friend.setCreatedDate(new Date());
         User user1 = userRepository.findUserByEmail(userDto1.getEmail());
         User user2 = userRepository.findUserByEmail(userDto2.getEmail());
         User firstuser = user1;
@@ -47,6 +46,7 @@ public class FriendService {
              seconduser = user1;
         }
         if( !(friendRepository.existsByFirstUserAndSecondUser(firstuser,seconduser)) ){
+            friend.setCreatedDate(new Date());
             friend.setFirstUser(firstuser);
             friend.setSecondUser(seconduser);
             friendRepository.save(friend);
