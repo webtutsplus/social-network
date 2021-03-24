@@ -51,38 +51,27 @@ public class FriendService {
             friend.setSecondUser(seconduser);
             friendRepository.save(friend);
         }
-//        Friend friendViceVersa = new Friend();
-//        friendViceVersa.setCreatedDate(new Date());
-//        User firstUser = userRepository.findUserByEmail(userDto2.getEmail());
-//        User secondUser = userRepository.findUserByEmail(userDto1.getEmail());
-//
-//        if( !(friendRepository.existsByFirstUserAndSecondUser(user1,user2)) ){
-//            friend.setFirstUser(user1);
-//            friend.setSecondUser(user2);
-//
-//            friendViceVersa.setFirstUser(firstUser);
-//            friendViceVersa.setSecondUser(secondUser);
-//
-//            friendRepository.save(friend);
-//            friendRepository.save(friendViceVersa);
-//        }
-
-
-
     }
 
     public List<User> getFriends(){
 
         UserDto currentUserDto = securityService.getUser();
         User currentUser = userRepository.findUserByEmail(currentUserDto.getEmail());
-        List<Friend> friends = friendRepository.findByFirstUser(currentUser);
-        List<Friend> friends1 = friendRepository.findBySecondUser(currentUser);
+        List<Friend> friendsByFirstUser = friendRepository.findByFirstUser(currentUser);
+        List<Friend> friendsBySecondUser = friendRepository.findBySecondUser(currentUser);
         List<User> friendUsers = new ArrayList<>();
 
-        for (Friend friend : friends) {
+        /*
+            suppose there are 3 users with id 1,2,3.
+            if user1 add user2 as friend database record will be first user = user1 second user = user2
+            if user3 add user2 as friend database record will be first user = user2 second user = user3
+            it is because of lexicographical order
+            while calling get friends of user 2 we need to check as a both first user and the second user
+         */
+        for (Friend friend : friendsByFirstUser) {
             friendUsers.add(userRepository.findUserById(friend.getSecondUser().getId()));
         }
-        for (Friend friend : friends1) {
+        for (Friend friend : friendsBySecondUser) {
             friendUsers.add(userRepository.findUserById(friend.getFirstUser().getId()));
         }
         return friendUsers;
