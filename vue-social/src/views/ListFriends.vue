@@ -15,7 +15,7 @@
               <img class="img"  thumbnail v-bind:src="item.picture" alt="avatar">
             </div>
             <div class="col-4 text-right">
-              <button class="btn btn-primary pull-right" @click="fetchRoom(item.id)">Chat</button>
+              <button class="btn btn-primary pull-right" @click="fetchRoom(item.id, item.name || item.email)">Chat</button>
             </div>
           </b-list-group-item>
         </b-list-group>
@@ -50,7 +50,7 @@ export default {
         }
       }).catch(err => console.log(err))
     },
-    fetchRoom(id) {
+    fetchRoom(id, friendName) {
       console.log(id);
       axios.get(`${API_BASE_URL}private/getRoomName?friendId=${id}`, {'headers':{
           'Authorization': 'Bearer '+localStorage.getItem('idToken'),
@@ -62,7 +62,7 @@ export default {
                 console.log('Room Exists');
                 snapshot.forEach((doc) => {
                   console.log(doc.key);
-                  this.$router.push({name: 'Chat', params: {nickname: localStorage.getItem('username'), roomid: doc.key, roomname: resp.data}});
+                  this.$router.push({name: 'Chat', params: {nickname: localStorage.getItem('username'), roomid: doc.key, roomname: resp.data, friend: friendName}});
                   return true;
                 })
 

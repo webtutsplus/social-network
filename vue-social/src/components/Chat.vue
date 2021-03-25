@@ -2,7 +2,7 @@
   <b-row>
     <b-col cols="12">
       <h2>
-        {{roomname}}
+        {{friendName}}
         <b-link @click="exitChat()">(Exit Chat)</b-link>
       </h2>
       <div class="chat-box" v-chat-scroll>
@@ -55,6 +55,7 @@ export default {
       roomid: this.$route.params.roomid,
       roomname: this.$route.params.roomname,
       nickname: this.$route.params.nickname,
+      friendName: this.$route.params.friend,
       data: { type:'', nickname:'', message:'' },
       chats: [],
       errors: [],
