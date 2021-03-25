@@ -60,6 +60,13 @@ export default {
             this.ref.orderByChild('roomName').equalTo(resp.data).once('value', snapshot => {
               if (snapshot.exists()) {
                 console.log('Room Exists');
+                snapshot.forEach((doc) => {
+                  console.log(doc.key);
+                  this.$router.push({name: 'Chat', params: {nickname: localStorage.getItem('username'), roomid: doc.key, roomname: resp.data}});
+                  return true;
+                })
+
+
               }
               else {
                 console.log("Does not Exist")
