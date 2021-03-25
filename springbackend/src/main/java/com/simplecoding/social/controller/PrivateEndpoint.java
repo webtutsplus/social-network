@@ -75,17 +75,17 @@ public class PrivateEndpoint {
         return new ResponseEntity<List<User>>(myFriends, HttpStatus.OK);
     }
 
-    @PostMapping("addPost")
+    @PostMapping("addpost")
     public ResponseEntity<?> addPost(@RequestBody Post post) throws NullPointerException {
         UserDto user = securityService.getUser();
         Post savedPost = postService.savePost(user,post.getContent());
-        return ResponseEntity.created(URI.create("/private/post")).body(savedPost);
+        return ResponseEntity.created(URI.create("/private/mypost")).body(savedPost);
     }
 
     @GetMapping("mypost")
     public ResponseEntity<?> myPosts() throws NullPointerException {
-        UserDto user = securityService.getUser();
-        List<Post> postList = postService.mypost(user);
+        User user=userService.getUser(securityService.getUser().getEmail());
+        List<Post> postList = postService.getPostsOfUser(user.getId());
         return ResponseEntity.ok(postList);
     }
 }

@@ -35,8 +35,12 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> mypost(UserDto userDto){
-        return postRepository.findPostByUser(userRepository.findUserByEmail(userDto.getEmail()));
+    public List<Post> getPostsOfUser(Integer userId){
+        return postRepository.findPostByUser(userRepository.findUserById(userId));
+    }
+
+    public List<Post> getAllPost(){
+        return postRepository.findAll();
     }
 
 }
