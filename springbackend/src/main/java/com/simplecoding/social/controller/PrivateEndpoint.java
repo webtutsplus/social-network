@@ -2,9 +2,11 @@ package com.simplecoding.social.controller;
 
 import com.simplecoding.social.auth.SecurityService;
 import com.simplecoding.social.auth.models.UserDto;
+import com.simplecoding.social.model.Post;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.repo.UserRepository;
 import com.simplecoding.social.service.FriendService;
+import com.simplecoding.social.service.PostService;
 import com.simplecoding.social.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,6 +29,9 @@ public class PrivateEndpoint {
 
     @Autowired
     FriendService friendService;
+
+    @Autowired
+    PostService postService;
 
     @Autowired
     UserRepository userRepository;
@@ -68,4 +75,17 @@ public class PrivateEndpoint {
         return new ResponseEntity<List<User>>(myFriends, HttpStatus.OK);
     }
 
+    @PostMapping("addPost")
+    public ResponseEntity<?> addPost(@RequestBody Post post) throws NullPointerException {
+        UserDto user = securityService.getUser();
+        Post savedPost = postService.savePost(user,post.getContent());
+        return ResponseEntity.created(URI.create("/private/post")).body(savedPost);
+    }
+
+    @GetMapping("mypost")
+    public ResponseEntity<?> myPosts() throws NullPointerException {
+        UserDto user = securityService.getUser();
+        List<Post> postList = postService.mypost(user);
+        return ResponseEntity.ok(postList);
+    }
 }
