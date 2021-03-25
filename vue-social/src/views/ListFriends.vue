@@ -52,7 +52,7 @@ export default {
     },
     fetchRoom(id, friendName) {
       console.log(id);
-      axios.get(`${API_BASE_URL}private/getRoomName?friendId=3`, {'headers':{
+      axios.get(`${API_BASE_URL}private/getRoomName?friendId=${id}`, {'headers':{
           'Authorization': 'Bearer '+localStorage.getItem('idToken'),
       }}).then(resp => {
         console.log(resp.data);
