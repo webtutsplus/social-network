@@ -2,6 +2,7 @@ package com.simplecoding.social.service;
 
 import com.simplecoding.social.auth.SecurityService;
 import com.simplecoding.social.auth.models.UserDto;
+import com.simplecoding.social.exceptions.UnauthorizedException;
 import com.simplecoding.social.model.Room;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.repo.FriendRepository;
@@ -60,7 +61,7 @@ public class RoomService {
 
     }
 
-    public String getRoom(int id){
+    public String getRoom (int id) throws UnauthorizedException {
 
         User user1 = userRepository.findUserByEmail(securityService.getUser().getEmail());
         User user2 = userRepository.getOne(id);
@@ -70,7 +71,7 @@ public class RoomService {
             user2 = temp;
         }
         if (!(roomRepository.existsByFirstUserAndSecondUser(user1,user2)))
-            return "Denied";
+            throw new UnauthorizedException();
         Room room = roomRepository.findByFirstUserAndSecondUser(user1, user2);
         return room.getRoomName();
 

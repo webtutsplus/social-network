@@ -2,6 +2,7 @@ package com.simplecoding.social.controller;
 
 import com.simplecoding.social.auth.SecurityService;
 import com.simplecoding.social.auth.models.UserDto;
+import com.simplecoding.social.exceptions.UnauthorizedException;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.repo.UserRepository;
 import com.simplecoding.social.service.FriendService;
@@ -76,10 +77,11 @@ public class PrivateEndpoint {
     public ResponseEntity<String> getRoom(@RequestParam("friendId")int friendId) {
         UserDto currentUser = securityService.getUser();
         roomService.saveRoom(currentUser,friendId);
-        String room = roomService.getRoom(friendId);
-
-        return new ResponseEntity<String>(room, HttpStatus.OK);
+        try {
+            String room = roomService.getRoom(friendId);
+            return new ResponseEntity<>(room, HttpStatus.OK);
+        } catch (UnauthorizedException v) {
+            return new ResponseEntity<>("Access Denied",HttpStatus.UNAUTHORIZED);
+        }
     }
-
-
 }

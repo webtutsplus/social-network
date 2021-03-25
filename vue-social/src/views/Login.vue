@@ -48,7 +48,7 @@
                 (user) => {
                   this.username = user.user.email;
                   localStorage.setItem("username", this.username);
-                  firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+                  firebase.auth().currentUser.getIdToken(true).then((idToken) => {
                     localStorage.setItem("idToken", idToken);
                     const token = "Bearer " + idToken
                     const url = `${API_BASE_URL}private/saveUser`;
@@ -70,7 +70,7 @@
               console.log("result", result);
               this.username = firebase.auth().currentUser.displayName;
               localStorage.setItem("username",this.username);
-              firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+              firebase.auth().currentUser.getIdToken(true).then((idToken) => {
                 localStorage.setItem("idToken", idToken);
                 const token = "Bearer " + idToken
                 const url = `${API_BASE_URL}private/saveUser`;

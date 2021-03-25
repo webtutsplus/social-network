@@ -52,33 +52,27 @@ export default {
     },
     fetchRoom(id, friendName) {
       console.log(id);
-      axios.get(`${API_BASE_URL}private/getRoomName?friendId=${id}`, {'headers':{
+      axios.get(`${API_BASE_URL}private/getRoomName?friendId=3`, {'headers':{
           'Authorization': 'Bearer '+localStorage.getItem('idToken'),
-        }}).then(resp => {
-          console.log(resp.data);
-          if (resp.data != 'Denied') {
-            this.ref.orderByChild('roomName').equalTo(resp.data).once('value', snapshot => {
-              if (snapshot.exists()) {
-                console.log('Room Exists');
-                snapshot.forEach((doc) => {
-                  console.log(doc.key);
-                  this.$router.push({name: 'Chat', params: {nickname: localStorage.getItem('username'), roomid: doc.key, roomname: resp.data, friend: friendName}});
-                  return true;
-                })
-
-
-              }
-              else {
-                console.log("Does not Exist")
-                let newData = this.ref.push()
-                newData.set({
-                  roomName: resp.data
-                })
-              }
-
+      }}).then(resp => {
+        console.log(resp.data);
+        this.ref.orderByChild('roomName').equalTo(resp.data).once('value', snapshot => {
+          if (snapshot.exists()) {
+            console.log('Room Exists');
+            snapshot.forEach((doc) => {
+              console.log(doc.key);
+              this.$router.push({name: 'Chat', params: {nickname: localStorage.getItem('username'), roomid: doc.key, roomname: resp.data, friend: friendName}});
+              return true;
             })
-
           }
+          else {
+            console.log("Does not Exist")
+            let newData = this.ref.push()
+            newData.set({
+              roomName: resp.data
+            })
+          }
+        })
       }).catch(err => console.log(err))
     }
   },
