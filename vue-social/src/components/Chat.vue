@@ -87,7 +87,7 @@ export default {
       let newData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push();
       newData.set({
         type: 'newmsg',
-        // user: this.nickname,
+        user: this.nickname,
         message: this.data.message,
         sendDate: Date()
       });
