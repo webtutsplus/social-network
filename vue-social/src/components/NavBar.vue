@@ -30,11 +30,6 @@
             <a class="nav-link" href="#" @click="signOut">Sign Out</a>
           </b-nav-item>
 
-
-          <b-nav-item v-if="username">
-            <router-link class="nav-link"  :to="'/room/'+this.username">Chat</router-link>
-          </b-nav-item>
-
           <b-nav-item v-if="username">
             <router-link class="nav-link"  :to="'/friends'">Friends</router-link>
           </b-nav-item>
