@@ -71,6 +71,9 @@ export default {
             newData.set({
               roomName: resp.data
             })
+            this.$router.push({name: 'Chat', params: {nickname: localStorage.getItem('username'), roomid: newData.key, roomname: resp.data, friend: friendName}});
+            return true;
+
           }
         })
       }).catch(err => console.log(err))
