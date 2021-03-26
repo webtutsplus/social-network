@@ -28,7 +28,8 @@ firebase.initializeApp(firebaseConfig);
 
 ### Deploy on server
 * `ssh root@165.22.182.0`
-* Go to social-network folder
+* Go to social-network folder and vue-social
+* create a file `.env` at the vue.js project root and add `VUE_APP_API_BASE_URL = http://165.22.182.0:8080/`
 * Update the GitHub Code 
 * To deploy the frontend,  
     * `ps -ef | grep "node"`
