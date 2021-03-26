@@ -68,3 +68,7 @@ vue-social/node_modules
 
 vue-social/src/firebase.js
 
+vue-social/package-lock.json
+vue-social/nohup.out
+springbackend/nohup.out
+

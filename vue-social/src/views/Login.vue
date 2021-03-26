@@ -1,72 +1,101 @@
 <template>
-    <div class="login">
-        <h3>Sign In</h3>
-        <input type="text" v-model="email" placeholder="Email"><br>
-        <input type="password" v-model="password" placeholder="Password"><br>
-        <button @click="login">Connection</button>
-        <p>You don't have an account ? You can <router-link to="/sign-up">create one</router-link></p>
-        <button @click="socialGithubLogin">Github</button>
-    </div>
+  <b-container>
+    <b-row>
+      <b-col class="pt-5">
+        <h3 class="pb-3 text-center">Sign In</h3>
+
+        <b-form  @submit.stop.prevent>
+          <b-form-group label="Email address:">
+            <b-form-input v-model="email" type="email" required />
+          </b-form-group>
+
+          <b-form-group label="Password:">
+            <b-form-input type="password" v-model="password" required/>
+          </b-form-group>
+
+          <b-form-group class="text-center">
+            <b-button variant="success" @click="login">Login</b-button>
+          </b-form-group>
+          <b-form-group class="text-center">
+            <p>Don't have an account ? You can <router-link to="/signup">create one by Github </router-link></p>
+            <b-button class="social-button" @click="socialGithubLogin"><img src="/assets/github_logo.png"></b-button>
+          </b-form-group>
+        </b-form>
+
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
     import firebase from 'firebase';
+    import {saveUser} from "@/helpers";
+
+    import {API_BASE_URL} from "../config";
     export default {
         name: 'login',
         data() {
             return {
                 email: '',
-                password: ''
+                password: '',
+                username: ''
             }
         },
         methods: {
-            login: function() {
-                firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-                    (user) => {
-                        console.log("user logged ins", user);
-                        alert("you are now connexted");
-                        this.$router.replace('home')
-                    },
-                    (err) => {
-                        alert('Oops. ' + err.message)
-                    }
-                );
-            },
+          //Logged in using email id and password
+          login: function () {
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+                (user) => {
+                  this.username = user.user.email;
+                  localStorage.setItem("username", this.username);
+                  this.$router.replace('/');
+                },
+                (err) => {
+                  alert('Oops. ' + err.message)
+                }
+            );
+          },
 
-            socialGithubLogin: function () {
-                const provider = new firebase.auth.GithubAuthProvider();
+          socialGithubLogin() {
+            //Logged in using GitHub
+            const provider = new firebase.auth.GithubAuthProvider();
 
-                firebase.auth().signInWithPopup(provider).then((result)=>{
-                    console.log("result", result);
-                }).catch((err)=>{
-                    alert('Oops. ' + err.message)
-                })
-
-            }
+            firebase.auth().signInWithPopup(provider).then((result) => {
+              console.log("result", result);
+              this.username = firebase.auth().currentUser.displayName;
+              localStorage.setItem("username",this.username);
+              firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+                localStorage.setItem("idToken", idToken);
+                const token = "Bearer " + idToken
+                const url = `${API_BASE_URL}private/saveUser`;
+                saveUser(url, token);
+              })
+              this.$router.replace('/');
+            }).catch((err) => {
+              alert('Oops. ' + err.message)
+            })
+          }
         }
+
     }
+
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */
-.login {
-    margin-top: 40px;
+
+.social-button {
+    width: 75px;
+    background: white;
+    padding: 10px;
+    border-radius: 100%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    outline: 0;
+    border: 0;
 }
-input {
-    margin: 10px 0;
-    width: 20%;
-    padding: 15px;
+.social-button:active {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
 }
-button {
-    margin-top: 20px;
-    width: 10%;
-    cursor: pointer;
-}
-p {
-    margin-top: 40px;
-    font-size: 13px;
-}
-p a {
-    text-decoration: underline;
-    cursor: pointer;
+.social-button img {
+    width: 100%;
 }
 </style>
