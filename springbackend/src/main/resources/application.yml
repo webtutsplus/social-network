@@ -40,7 +40,7 @@ security:
     - https://${DOMAIN}
     - http://localhost:3000
     - http://localhost:8081
-    - //http://165.22.182.0:8081
+    - http://165.22.182.0:8081
   allowed-methods:
     - GET
     - POST
