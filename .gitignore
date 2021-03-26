@@ -69,3 +69,6 @@ vue-social/node_modules
 vue-social/src/firebase.js
 vue-social/yarn.lock
 
+vue-social/nohup.out
+springbackend/nohup.out
+
