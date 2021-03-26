@@ -63,13 +63,13 @@ export default {
     }
   },
   created () {
-    let joinData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push();
-    joinData.set({
-      type: 'join',
-      user: this.nickname,
-      message: this.nickname+' has joined this room.',
-      sendDate: Date()
-    });
+    // let joinData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push();
+    // joinData.set({
+    //   type: 'join',
+    //   user: this.nickname,
+    //   message: this.nickname+' has joined this room.',
+    //   sendDate: Date()
+    // });
     this.data.message = '';
     firebase.database().ref('chatrooms/'+this.roomid+'/chats').on('value', (snapshot) => {
       this.chats = [];
@@ -94,13 +94,13 @@ export default {
       this.data.message = '';
     },
     exitChat () {
-      let exitData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push()
-      exitData.set({
-        type: 'exit',
-        user: this.nickname,
-        message: this.nickname+' has exited this room.',
-        sendDate: Date()
-      })
+      // let exitData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push()
+      // exitData.set({
+      //   type: 'exit',
+      //   user: this.nickname,
+      //   message: this.nickname+' has exited this room.',
+      //   sendDate: Date()
+      // })
 
       this.offStatus = true
       router.go(-1)
