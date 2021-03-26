@@ -15,14 +15,14 @@
             <div v-else>
               <div class="chat-message text-right" v-if="chat.user === nickname">
                 <div class="right-bubble">
-                  <span class="msg-name">Me</span>
+<!--                  <span class="msg-name">Me</span>-->
                   <span class="msg-date">{{chat.sendDate}}</span>
                   <p text-wrap>{{chat.message}}</p>
                 </div>
               </div>
               <div class="chat-message text-left" text-left v-if="chat.user !== nickname">
                 <div class="left-bubble">
-                  <span class="msg-name">{{chat.user}}</span>
+<!--                  <span class="msg-name">{{chat.user}}</span>-->
                   <span class="msg-date">{{chat.sendDate}}</span>
                   <p text-wrap>{{chat.message}}</p>
                 </div>
@@ -87,7 +87,7 @@ export default {
       let newData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push();
       newData.set({
         type: 'newmsg',
-        user: this.nickname,
+        // user: this.nickname,
         message: this.data.message,
         sendDate: Date()
       });
