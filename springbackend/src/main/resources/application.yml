@@ -39,6 +39,7 @@ security:
   allowed-origins:
     - https://${DOMAIN}
     - http://localhost:3000
+    - http://139.59.38.249:8081
   allowed-methods:
     - GET
     - POST
