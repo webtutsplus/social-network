@@ -151,7 +151,8 @@ export default {
   border-bottom-left-radius: .4em;
   border-bottom-right-radius: .4em;
   padding: 5px 10px 10px;
-  left: 15%;
+  left: 90%;
+  width: 30%;
 }
 .chat-message .right-bubble span.msg-name {
   font-size: 12px;
@@ -185,6 +186,7 @@ export default {
   border-bottom-right-radius: .4em;
   padding: 5px 10px 10px;
   left: 5%;
+  width: 30%;
 }
 .chat-message .left-bubble span.msg-name {
   font-size: 12px;
