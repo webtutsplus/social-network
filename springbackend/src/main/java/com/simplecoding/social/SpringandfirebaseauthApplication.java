@@ -13,14 +13,4 @@ public class SpringandfirebaseauthApplication {
         SpringApplication.run(SpringandfirebaseauthApplication.class, args);
     }
 
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
-            }
-        };
-    }
 }
