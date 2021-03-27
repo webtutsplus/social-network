@@ -42,6 +42,7 @@ security:
     - http://localhost:8080
     - http://localhost:8081
     - http://165.22.182.0:8081
+    - https://socialmediaorganiser.com
   allowed-methods:
     - GET
     - POST
@@ -72,7 +73,13 @@ security:
     - X-Xsrf-Token
 
 
-
+server:
+  port: 8080
+  ssl:
+    key-store: /etc/letsencrypt/live/socialmediaorganiser.com-0002/keystore.p12
+    key-store-password: tomcat
+    keyStoreType: PKCS12
+    keyAlias: tomcat
 
 
 

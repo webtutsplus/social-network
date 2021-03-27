@@ -71,4 +71,4 @@ vue-social/src/firebase.js
 vue-social/package-lock.json
 vue-social/nohup.out
 springbackend/nohup.out
-
+src/main/resources/application.yml
