@@ -80,7 +80,3 @@ server:
     key-store-password: tomcat
     keyStoreType: PKCS12
     keyAlias: tomcat
-
-
-
-
