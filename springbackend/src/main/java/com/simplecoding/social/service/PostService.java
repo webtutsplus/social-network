@@ -2,6 +2,7 @@ package com.simplecoding.social.service;
 
 import com.simplecoding.social.auth.SecurityService;
 import com.simplecoding.social.auth.models.UserDto;
+import com.simplecoding.social.dtos.PostDto;
 import com.simplecoding.social.model.Post;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.repo.PostRepository;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,8 +37,13 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> getPostsOfUser(Integer userId){
-        return postRepository.findPostByUser(userRepository.findUserById(userId));
+    public List<PostDto> getPostsOfUser(Integer userId){
+        List<Post> postList= postRepository.findPostByUser(userRepository.findUserById(userId));
+        List<PostDto> postDtoList= new ArrayList<>();
+        for (Post post :postList) {
+            postDtoList.add(modelMapper.map(post,PostDto.class));
+        }
+        return postDtoList;
     }
 
     public List<Post> getAllPost(){

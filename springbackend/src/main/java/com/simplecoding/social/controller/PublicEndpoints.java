@@ -1,5 +1,6 @@
 package com.simplecoding.social.controller;
 
+import com.simplecoding.social.dtos.PostDto;
 import com.simplecoding.social.model.Post;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.service.PostService;
@@ -38,7 +39,7 @@ public class PublicEndpoints {
     }
     @GetMapping("/{userId}/posts")
     public ResponseEntity<?> getPostofUser(@PathVariable Integer userId){
-        List<Post> postList = postService.getPostsOfUser(userId);
+        List<PostDto> postList = postService.getPostsOfUser(userId);
         return ResponseEntity.ok(postList);
     }
 

@@ -2,11 +2,14 @@ package com.simplecoding.social.controller;
 
 import com.simplecoding.social.auth.SecurityService;
 import com.simplecoding.social.auth.models.UserDto;
+import com.simplecoding.social.dtos.PostDto;
 import com.simplecoding.social.model.Post;
+import com.simplecoding.social.exceptions.UnauthorizedException;
 import com.simplecoding.social.model.User;
 import com.simplecoding.social.repo.UserRepository;
 import com.simplecoding.social.service.FriendService;
 import com.simplecoding.social.service.PostService;
+import com.simplecoding.social.service.RoomService;
 import com.simplecoding.social.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,9 @@ public class PrivateEndpoint {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    RoomService roomService;
 
     @Autowired
     UserRepository userRepository;
@@ -85,7 +91,18 @@ public class PrivateEndpoint {
     @GetMapping("mypost")
     public ResponseEntity<?> myPosts() throws NullPointerException {
         User user=userService.getUser(securityService.getUser().getEmail());
-        List<Post> postList = postService.getPostsOfUser(user.getId());
+        List<PostDto> postList = postService.getPostsOfUser(user.getId());
         return ResponseEntity.ok(postList);
+    }
+    @GetMapping("getRoomName")
+    public ResponseEntity<String> getRoom(@RequestParam("friendId")int friendId) {
+        UserDto currentUser = securityService.getUser();
+        roomService.saveRoom(currentUser,friendId);
+        try {
+            String room = roomService.getRoom(friendId);
+            return new ResponseEntity<>(room, HttpStatus.OK);
+        } catch (UnauthorizedException v) {
+            return new ResponseEntity<>("Access Denied",HttpStatus.UNAUTHORIZED);
+        }
     }
 }
