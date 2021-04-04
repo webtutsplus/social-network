@@ -7,8 +7,6 @@ export function saveUser(url, token) {
             console.log(resp);
             if(resp.status === 200){
                 VueSimpleAlert.alert("Logged In succesfully")
-                this.$router.replace('/');
-                this.$router.push('/');
                 console.log('saved the user!!!');
             }
             else {

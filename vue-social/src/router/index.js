@@ -8,6 +8,8 @@ import Chat from '../components/Chat.vue'
 import Room from '../components/Room.vue'
 import AddRoom from '../components/AddRoom.vue'
 import Posts from "../views/Posts";
+import ListFriends from "../views/ListFriends";
+import Profile from "../views/Profile";
 
 Vue.use(VueRouter)
 
@@ -34,6 +36,11 @@ const routes = [
     path: '/posts',
     name: 'Posts',
     component: Posts
+  },{
+    path: '/profile/:id',
+    name: 'Profile',
+    component: Profile,
+    props: true
   },
   {
     path: '/chat/:nickname/:roomid/:roomname',
@@ -49,6 +56,11 @@ const routes = [
     path: '/add-room',
     name: 'AddRoom',
     component: AddRoom
+  },
+  {
+    path: '/friends',
+    name: 'Friends',
+    component: ListFriends
   }
 ]
 

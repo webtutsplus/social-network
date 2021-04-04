@@ -1,61 +1,57 @@
 <template>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/"><img id="logo" src="/assets/icon.png" class="img-fluid" /></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <div>
+    <b-navbar toggleable="lg" type="light" variant="light">
+      <b-navbar-brand href="/"><img id="logo" src="/assets/icon.png" class="img-fluid"/></b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item>
+            <router-link class="nav-link" :to="'/'">Home</router-link>
+          </b-nav-item>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link class="nav-link" :to="'/'">Home</router-link>
-        </li>
+          <b-nav-item>
+            <router-link class="nav-link" :to="'/listusers'">Users</router-link>
+          </b-nav-item>
+          <b-nav-item class="nav-item">
+            <router-link class="nav-link" :to="'/posts'">Posts</router-link>
+          </b-nav-item>
 
-        <li class="nav-item">
-          <router-link class="nav-link" :to="'/posts'">Posts</router-link>
-        </li>
+          <b-nav-item v-if="!username">
+            <router-link class="nav-link" :to="'/login'">Chat</router-link>
+          </b-nav-item>
 
-        <li class="nav-item">
-          <router-link class="nav-link" :to="'/listusers'">Users</router-link>
-        </li>
+          <b-nav-item v-if="!username">
+            <router-link class="nav-link" :to="'/login'">Log In</router-link>
+          </b-nav-item>
 
-        <li class="nav-item" v-if="!username">
-          <router-link class="nav-link"  :to="'/login'">Chat</router-link>
-        </li>
+          <b-nav-item v-if="!username">
+            <router-link class="nav-link" :to="'/signup'">Sign Up</router-link>
+          </b-nav-item>
 
-        <li class="nav-item" v-if="!username">
-          <router-link class="nav-link"  :to="'/login'">Log In</router-link>
-        </li>
+          <b-nav-item v-else>
+            <a class="nav-link" href="#" @click="signOut">Sign Out</a>
+          </b-nav-item>
 
-        <li class="nav-item" v-if="!username">
-          <router-link class="nav-link" :to="'/signup'">Sign Up</router-link>
-        </li>
-
-        <li class="nav-item" v-else>
-          <a class="nav-link" href="#" @click="signOut">Sign Out</a>
-        </li>
-
-        <li class="nav-item" v-if="username">
-          <router-link class="nav-link"  :to="'/room/'+this.username">Chat</router-link>
-        </li>
-
-
-
-      </ul>
-    </div>
-  </nav>
+          <b-nav-item v-if="username">
+            <router-link class="nav-link" :to="'/friends'">Friends</router-link>
+          </b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
   <!-- Navbar Ends -->
 
 </template>
 
 <script>
 import firebase from 'firebase';
+
 export default {
   name: "Navbar",
   data() {
     return {
-      username : localStorage.getItem('username')
+      username: localStorage.getItem('username')
     }
   },
   watch: {
@@ -69,7 +65,7 @@ export default {
         localStorage.removeItem('username');
         this.username = null;
         this.$router.replace('/login');
-      }).catch(function(error) {
+      }).catch(function (error) {
         console.log(error);
       });
     }
