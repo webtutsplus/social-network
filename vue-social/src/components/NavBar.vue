@@ -33,10 +33,6 @@
           <b-nav-item v-else>
             <a class="nav-link" href="#" @click="signOut">Sign Out</a>
           </b-nav-item>
-
-          <b-nav-item v-if="username">
-            <router-link class="nav-link"  :to="'/friends'">Friends</router-link>
-          </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
