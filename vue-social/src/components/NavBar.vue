@@ -17,12 +17,10 @@
           <b-nav-item v-if="!username">
             <router-link class="nav-link"  :to="'/login'">Chat</router-link>
           </b-nav-item>
-        <li class="nav-item">
-          <router-link class="nav-link" :to="'/listfriends'">Friends</router-link>
-        </li>
-        <li class="nav-item" v-if="!username">
-          <router-link class="nav-link"  :to="'/login'">Chat</router-link>
-        </li>
+
+          <b-nav-item>
+            <router-link class="nav-link" :to="'/listfriends'">Friends</router-link>
+          </b-nav-item>
 
           <b-nav-item v-if="!username">
             <router-link class="nav-link"  :to="'/login'">Log In</router-link>
