@@ -49,6 +49,11 @@ const routes = [
     path: '/add-room',
     name: 'AddRoom',
     component: AddRoom
+  },
+  {
+    path: '/friends',
+    name: 'Friends',
+    component: ListFriends
   }
 ]
 

@@ -2,7 +2,7 @@
   <b-row>
     <b-col cols="12">
       <h2>
-        {{roomname}}
+        {{friendName}}
         <b-link @click="exitChat()">(Exit Chat)</b-link>
       </h2>
       <div class="chat-box" v-chat-scroll>
@@ -15,14 +15,14 @@
             <div v-else>
               <div class="chat-message text-right" v-if="chat.user === nickname">
                 <div class="right-bubble">
-                  <span class="msg-name">Me</span>
+<!--                  <span class="msg-name">Me</span>-->
                   <span class="msg-date">{{chat.sendDate}}</span>
                   <p text-wrap>{{chat.message}}</p>
                 </div>
               </div>
               <div class="chat-message text-left" text-left v-if="chat.user !== nickname">
                 <div class="left-bubble">
-                  <span class="msg-name">{{chat.user}}</span>
+<!--                  <span class="msg-name">{{chat.user}}</span>-->
                   <span class="msg-date">{{chat.sendDate}}</span>
                   <p text-wrap>{{chat.message}}</p>
                 </div>
@@ -55,6 +55,7 @@ export default {
       roomid: this.$route.params.roomid,
       roomname: this.$route.params.roomname,
       nickname: this.$route.params.nickname,
+      friendName: this.$route.params.friend,
       data: { type:'', nickname:'', message:'' },
       chats: [],
       errors: [],
@@ -62,13 +63,13 @@ export default {
     }
   },
   created () {
-    let joinData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push();
-    joinData.set({
-      type: 'join',
-      user: this.nickname,
-      message: this.nickname+' has joined this room.',
-      sendDate: Date()
-    });
+    // let joinData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push();
+    // joinData.set({
+    //   type: 'join',
+    //   user: this.nickname,
+    //   message: this.nickname+' has joined this room.',
+    //   sendDate: Date()
+    // });
     this.data.message = '';
     firebase.database().ref('chatrooms/'+this.roomid+'/chats').on('value', (snapshot) => {
       this.chats = [];
@@ -93,13 +94,13 @@ export default {
       this.data.message = '';
     },
     exitChat () {
-      let exitData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push()
-      exitData.set({
-        type: 'exit',
-        user: this.nickname,
-        message: this.nickname+' has exited this room.',
-        sendDate: Date()
-      })
+      // let exitData = firebase.database().ref('chatrooms/'+this.roomid+'/chats').push()
+      // exitData.set({
+      //   type: 'exit',
+      //   user: this.nickname,
+      //   message: this.nickname+' has exited this room.',
+      //   sendDate: Date()
+      // })
 
       this.offStatus = true
       router.go(-1)
@@ -150,7 +151,8 @@ export default {
   border-bottom-left-radius: .4em;
   border-bottom-right-radius: .4em;
   padding: 5px 10px 10px;
-  left: 15%;
+  left: 90%;
+  width: 30%;
 }
 .chat-message .right-bubble span.msg-name {
   font-size: 12px;
@@ -184,6 +186,7 @@ export default {
   border-bottom-right-radius: .4em;
   padding: 5px 10px 10px;
   left: 5%;
+  width: 30%;
 }
 .chat-message .left-bubble span.msg-name {
   font-size: 12px;
