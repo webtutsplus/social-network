@@ -2,7 +2,7 @@
   <!-- Navbar -->
   <div>
     <b-navbar toggleable="lg" type="light" variant="light">
-      <b-navbar-brand href="/"><img id="logo" src="/assets/icon.png" class="img-fluid"/></b-navbar-brand>
+      <b-navbar-brand href="/"><img id="logo" src="/assets/icon.png" class="img-fluid" /></b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -46,12 +46,11 @@
 
 <script>
 import firebase from 'firebase';
-
 export default {
   name: "Navbar",
   data() {
     return {
-      username: localStorage.getItem('username')
+      username : localStorage.getItem('username')
     }
   },
   watch: {
@@ -65,7 +64,7 @@ export default {
         localStorage.removeItem('username');
         this.username = null;
         this.$router.replace('/login');
-      }).catch(function (error) {
+      }).catch(function(error) {
         console.log(error);
       });
     }
