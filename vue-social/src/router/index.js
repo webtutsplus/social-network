@@ -30,6 +30,10 @@ const routes = [
     path: '/listusers',
     name: 'ListUsers',
     component: UserList
+  },{
+    path: '/listfriends',
+    name: 'ListFriends',
+    component: ListFriends
   },
   {
     path: '/chat/:nickname/:roomid/:roomname',
