@@ -25,7 +25,7 @@
       <SidebarChat />
       <SidebarChat />
       <SidebarChat />
-      <SidebarChat /><SidebarChat />
+      <SidebarChat />
     </div>
   </div>
 </template>
@@ -96,7 +96,10 @@ name: "Sidebar",
 .sidebar__chat {
   flex: 1;
   background-color: white;
-  overflow: scroll;
+  overflow-y: hidden;
 }
 
+.sidebar__chat:hover {
+  overflow-y: auto;
+}
 </style>

@@ -96,7 +96,7 @@ name: "Chat",
   flex: 1;
   background: repeat center;
   padding: 30px;
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .chat__message {
