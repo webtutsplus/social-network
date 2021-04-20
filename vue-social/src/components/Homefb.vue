@@ -30,7 +30,6 @@ export default {
 
 .app__body {
   background-color: #f1f2f5;
-
 }
 #sidebar{
   position: absolute;

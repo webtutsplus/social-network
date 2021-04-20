@@ -8,6 +8,7 @@
 <script>
   import firebase from 'firebase';
   import Navbar from "./components/NavBar";
+
   //import $ from 'jquery'
 
   export default {

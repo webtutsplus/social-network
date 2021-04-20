@@ -81,6 +81,32 @@
 <!--</template>-->
 <template>
   <div>
+    <div class='messageSender'>
+      <div class='messageSender__top'>
+        <md-avatar><md-icon>account_circle</md-icon></md-avatar>
+        <form>
+          <input class='messageSender__input' placeholder="what's on your mind"/>
+          <input placeholder='image URL (Optional)'/>
+          <button type='submit' onClick={handleSubmit}>hidden submit</button>
+        </form>
+      </div>
+      <div class='messageSender__bottom'>
+        <div class='messageSender__option'>
+          <md-icon style="color: red">videocam</md-icon>
+          <h3>Live Video</h3>
+        </div>
+
+        <div class='messageSender__option'>
+          <md-icon style="color: green">photo_library</md-icon>
+          <h3>Photo/Video</h3>
+        </div>
+
+        <div class='messageSender__option'>
+          <md-icon style="color: orange">insert_emoticon</md-icon>
+          <h3>Feeling/Activity</h3>
+        </div>
+      </div>
+    </div>
     <div class='post'>
       <div class='post__top' >
         <div class="post__avatar">
@@ -294,6 +320,68 @@ export default {
 </script>
 
 <style scoped>
+
+.messageSender {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0px 5px 7px -7px rgba(0,0,0,0.75);
+  width: 100%;
+}
+
+.messageSender__top {
+  display: flex;
+  border-bottom: 1px solid #eff2f5;
+  padding: 15px;
+}
+
+.messageSender__top > form {
+  flex: 1;
+  display: flex;
+}
+
+.messageSender__top > form > input {
+  outline-width: 0;
+  border: none;
+  padding: 5px 20px;
+  margin: 0px 10px;
+  border-radius: 999px;
+  background-color: #eff2f5;
+}
+
+.messageSender__top > form > button {
+  display: none;
+}
+
+.messageSender__input {
+  flex: 1;
+}
+
+.messageSender__bottom {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.messageSender__option {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  color: gray;
+  margin: 5px;
+}
+
+.messageSender__option > h3 {
+  font-size: medium;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.messageSender__option:hover {
+  background-color: #eff2f5;
+  border-radius: 20px;
+}
 
 .post {
   width: 100%;
