@@ -4,13 +4,14 @@
       <b-col class="pt-5">
         <b-list-group class="list-group">
           <b-list-group-item class="d-flex justify-content-around" v-for="item in users" v-bind:key="item.id">
+                <RouterLink :to="'profile/'+item.id">
                 <div class="col-4" v-if="item.name === null">
                   {{item.email}}
                 </div>
                 <div class="col-4" v-else>
                   {{item.name}}
                 </div>
-
+                </RouterLink>
               <div class="col-4 text-center">
                 <img class="img" v-bind:src="item.picture" alt="avatar">
               </div>

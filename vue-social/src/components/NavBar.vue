@@ -13,17 +13,16 @@
           <b-nav-item>
             <router-link class="nav-link" :to="'/listusers'">Users</router-link>
           </b-nav-item>
-
-          <b-nav-item v-if="!username">
-            <router-link class="nav-link"  :to="'/login'">Chat</router-link>
-          </b-nav-item>
-
-          <b-nav-item>
-            <router-link class="nav-link" :to="'/listfriends'">Friends</router-link>
+          <b-nav-item class="nav-item">
+            <router-link class="nav-link" :to="'/posts'">Posts</router-link>
           </b-nav-item>
 
           <b-nav-item v-if="!username">
-            <router-link class="nav-link"  :to="'/login'">Log In</router-link>
+            <router-link class="nav-link" :to="'/login'">Chat</router-link>
+          </b-nav-item>
+
+          <b-nav-item v-if="!username">
+            <router-link class="nav-link" :to="'/login'">Log In</router-link>
           </b-nav-item>
 
           <b-nav-item v-if="!username">
@@ -32,6 +31,10 @@
 
           <b-nav-item v-else>
             <a class="nav-link" href="#" @click="signOut">Sign Out</a>
+          </b-nav-item>
+
+          <b-nav-item v-if="username">
+            <router-link class="nav-link" :to="'/friends'">Friends</router-link>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>

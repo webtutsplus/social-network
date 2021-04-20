@@ -8,6 +8,8 @@ import Chat from '../components/Chat.vue'
 import Room from '../components/Room.vue'
 import AddRoom from '../components/AddRoom.vue'
 import ListFriends from "../views/ListFriends";
+import Profile from "../views/Profile";
+import Homefb from "../components/Homefb";
 
 Vue.use(VueRouter)
 
@@ -31,9 +33,14 @@ const routes = [
     name: 'ListUsers',
     component: UserList
   },{
-    path: '/listfriends',
-    name: 'ListFriends',
-    component: ListFriends
+    path: '/posts',
+    name: 'Homefb',
+    component: Homefb
+  },{
+    path: '/profile/:id',
+    name: 'Profile',
+    component: Profile,
+    props: true
   },
   {
     path: '/chat/:nickname/:roomid/:roomname',
